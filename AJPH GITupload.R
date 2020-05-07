@@ -26,7 +26,6 @@ library(irr)
 library(quanteda)
 library(ldatuning)
 library(topicmodels)
-library(xlsx)
 library(textcat)
 library(parallel)
 library(RSQLite)
@@ -38,7 +37,7 @@ library(cld2)
 library(tidyverse)
 library(dplyr)
 library(rgexf)
-
+library(openxlsx)
 
 
 ############################## Importing and Cleaning the Data
@@ -292,8 +291,8 @@ LDAfit<-LDA.60
 #########################################################################
 
 # Printing main files for analysis (WORDS/FREX/TEXTS)
-## setting the text column
-datacolnum=13
+
+datacolnum=13 ## setting the text column
 
 ## Funciton to print Beta, Frex and Theta
 extract_topic_xls<-function (eachLDA) {
@@ -316,7 +315,7 @@ extract_topic_xls<-function (eachLDA) {
   }
   rownames(topwords)<-c(1:nwords)
   kalpha<-paste0(as.character(LDAfit@k),"_",gsub("\\.","",as.character(LDAfit@alpha)))
-  write.xlsx(topwords, paste0(kalpha,"_ALLBOTS_Topwords.xlsx"))
+  openxlsx::write.xlsx(topwords, paste0(kalpha,"_ALLBOTS_Topwords.xlsx"))
   
   #### Get Frex (unique) words
   #### get the beta
@@ -346,7 +345,7 @@ extract_topic_xls<-function (eachLDA) {
   }
   rownames(topwords)<-c(1:nwords)
   kalpha<-paste0(as.character(LDAfit@k),"_",gsub("\\.","",as.character(LDAfit@alpha)))
-  write.xlsx(topwords,paste0(kalpha,"_ALLBOTS_TopFREX.xlsx"))
+  openxlsx::write.xlsx(topwords,paste0(kalpha,"_ALLBOTS_TopFREX.xlsx"))
   
   #### TOP TEXTS --->
   data33<-data3
@@ -367,7 +366,7 @@ extract_topic_xls<-function (eachLDA) {
   }
   rownames(toptexts)<-c(1:ntext)
   kalpha<-paste0(as.character(LDAfit@k),"_",gsub("\\.","",as.character(LDAfit@alpha)))
-  write.xlsx(toptexts, paste0(kalpha,"_ALLBOTS_TopTexts.xlsx"))
+  openxlsx::write.xlsx(toptexts, paste0(kalpha,"_ALLBOTS_TopTexts.xlsx"))
 }
 
 ## Apply function to model
